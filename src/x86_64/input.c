@@ -43,6 +43,7 @@ void read(char *buffer, int length) {
         char character = keycode_to_ascii[keycode];
         buffer[index] = character;
         print_char(character);
+        move_cursor_right();
         index++;
         sleep(0x02FFFFFF);
     } while (index < length && keycode != KEY_ENTER);

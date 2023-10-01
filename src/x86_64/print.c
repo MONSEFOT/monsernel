@@ -91,6 +91,12 @@ void set_cursor_position(size_t row, size_t col)
 
     buffer[col + NUM_COLS * row].color |= (PRINT_COLOR_RED << 4); // Set the lowest bit for background color
 }
+void move_cursor_right() {
+    set_cursor_position(cursor_row, cursor_col+1);
+}
+void move_cursor_left() {
+    set_cursor_position(cursor_row, cursor_col - 1);
+}
 void print_set_color(uint8_t foreground, uint8_t background)
 {
     color = foreground + (background << 4);

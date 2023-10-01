@@ -29,4 +29,6 @@ void print_newline();
 void print_str(char* string);
 void print_char(char character);
 void set_cursor_position(size_t row, size_t col);
+void move_cursor_right();
+void move_cursor_left();
 void print_set_color(uint8_t foreground, uint8_t background);
