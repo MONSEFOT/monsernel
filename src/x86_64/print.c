@@ -1,7 +1,5 @@
 #include "print.h"
-
-const static size_t NUM_COLS = 80;
-const static size_t NUM_ROWS = 25;
+#include "cli.h"
 
 struct Char
 {
@@ -10,15 +8,17 @@ struct Char
 };
 
 struct Char *buffer = (struct Char *)0xb8000;
-size_t col = 0;
-size_t row = 0;
+
+size_t col = 0, row = 0;
+size_t cursor_row = 0, cursor_col = 0;
+
 uint8_t color = PRINT_COLOR_YELLOW | PRINT_COLOR_BLACK << 4;
 
 void clear_row(size_t row)
 {
-    struct Char empty = (struct Char) {
-        character: ' ',
-        color: color,
+    struct Char empty = (struct Char){
+        character : ' ',
+        color : color,
     };
 
     for (size_t col = 0; col < NUM_COLS; col++)
@@ -39,17 +39,20 @@ void print_newline()
     if (row < NUM_ROWS - 1)
     {
         row++;
-        return;
     }
-    for (size_t row = 1; row < NUM_ROWS; row++)
+    else
     {
-        for (size_t col = 0; col < NUM_COLS; col++)
+
+        for (size_t row = 1; row < NUM_ROWS; row++)
         {
-            struct Char character = buffer[col + NUM_COLS * row];
-            buffer[col + NUM_COLS * (row - 1)] = character;
+            for (size_t col = 0; col < NUM_COLS; col++)
+            {
+                struct Char character = buffer[col + NUM_COLS * row];
+                buffer[col + NUM_COLS * (row - 1)] = character;
+            }
         }
+        clear_row(NUM_COLS - 1);
     }
-    clear_row(NUM_COLS - 1);
 }
 void print_char(char character)
 {
@@ -68,23 +71,25 @@ void print_char(char character)
         character : (uint8_t)character,
         color : color,
     };
-
     col++;
 }
-
 void print_str(char *string)
 {
-    for (size_t i = 0; 1; i++)
+    for (size_t i = 0; string[i] != '\0'; i++)
     {
         char character = (uint8_t)string[i];
-
-        if (character == '\0')
-        {
-            return;
-        }
-
         print_char(character);
     }
+    set_cursor_position(row, col);
+}
+void set_cursor_position(size_t row, size_t col)
+{
+    buffer[cursor_col + NUM_COLS * cursor_row].color &= 0x0F; // Reset lower 4 bits for background color.
+    
+    cursor_col = col;
+    cursor_row = row;
+
+    buffer[col + NUM_COLS * row].color |= (PRINT_COLOR_RED << 4); // Set the lowest bit for background color
 }
 void print_set_color(uint8_t foreground, uint8_t background)
 {

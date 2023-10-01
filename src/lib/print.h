@@ -2,6 +2,9 @@
 
 #include <stdint.h>
 #include <stddef.h>
+
+const static size_t NUM_COLS = 80;
+const static size_t NUM_ROWS = 25;
 enum {
     PRINT_COLOR_BLACK       = 0,
     PRINT_COLOR_BLUE        = 1,
@@ -24,4 +27,5 @@ enum {
 void print_clear();
 void print_str(char* string);
 void print_char(char character);
+void set_cursor_position(size_t row, size_t col);
 void print_set_color(uint8_t foreground, uint8_t background);
