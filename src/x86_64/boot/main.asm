@@ -116,6 +116,7 @@ error:
 
 section .bss
 align 4096
+
 page_table_l4:
 	resb 4096
 page_table_l3:

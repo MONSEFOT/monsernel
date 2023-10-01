@@ -25,6 +25,7 @@ enum {
 };
 
 void print_clear();
+void print_newline(); 
 void print_str(char* string);
 void print_char(char character);
 void set_cursor_position(size_t row, size_t col);
