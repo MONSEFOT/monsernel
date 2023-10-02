@@ -12,7 +12,6 @@ void process_user_input()
 
     char input_buffer[MAX_COMMAND_LENGTH];
     read(input_buffer, MAX_COMMAND_LENGTH);
-    print_str(input_buffer);
 }
 void cli_prompt()
 {

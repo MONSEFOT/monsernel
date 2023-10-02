@@ -42,7 +42,6 @@ void print_newline()
     }
     else
     {
-
         for (size_t row = 1; row < NUM_ROWS; row++)
         {
             for (size_t col = 0; col < NUM_COLS; col++)
@@ -54,7 +53,7 @@ void print_newline()
         clear_row(NUM_COLS - 1);
     }
 }
-void print_char(char character)
+void print_char(char character, int __in_cursor_pos)
 {
     if (character == '\n')
     {
@@ -66,36 +65,44 @@ void print_char(char character)
     {
         print_newline();
     }
-
-    buffer[col + NUM_COLS * row] = (struct Char){
-        character : (uint8_t)character,
-        color : color,
-    };
-    col++;
+    if (!__in_cursor_pos) {
+        buffer[col + NUM_COLS * row] = (struct Char){
+            character : (uint8_t)character,
+            color : color,
+        };
+        col++;
+    }else {
+        buffer[cursor_col + NUM_COLS * cursor_row] = (struct Char){
+            character : (uint8_t)character,
+            color : color,
+        };   
+    }
 }
 void print_str(char *string)
 {
     for (size_t i = 0; string[i] != '\0'; i++)
     {
         char character = (uint8_t)string[i];
-        print_char(character);
+        print_char(character, 0);
     }
     set_cursor_position(row, col);
 }
 void set_cursor_position(size_t row, size_t col)
 {
     buffer[cursor_col + NUM_COLS * cursor_row].color &= 0x0F; // Reset lower 4 bits for background color.
-    
+
     cursor_col = col;
     cursor_row = row;
 
     buffer[col + NUM_COLS * row].color |= (PRINT_COLOR_RED << 4); // Set the lowest bit for background color
 }
-void move_cursor_right() {
-    set_cursor_position(cursor_row, cursor_col+1);
+void move_cursor_right()
+{
+    set_cursor_position(cursor_row, cursor_col + 1);    
 }
-void move_cursor_left() {
-    set_cursor_position(cursor_row, cursor_col - 1);
+void move_cursor_left()
+{
+    set_cursor_position(cursor_row, cursor_col - 1);    
 }
 void print_set_color(uint8_t foreground, uint8_t background)
 {

@@ -8,11 +8,11 @@ Ensure you have a suitable development environment set up, including a cross-com
 
 Since you've already implemented basic printing functions, consider expanding them to include scrolling, cursor control, and formatting options (e.g., printf-style formatting).
 
-**Step 3: Implement Interrupt Handling**
+**Step 3: Implement Interrupt Handling (DONE)**
 
 Implement interrupt handling, particularly the Interrupt Descriptor Table (IDT), and basic interrupt service routines (ISRs). This will allow you to respond to hardware interrupts and exceptions, such as keyboard input or timer interrupts.
 
-**Step 4: Keyboard Input**
+**Step 4: Keyboard Input (DONE)** 
 
 Implement keyboard input handling. Capture keyboard input from the user, and create a simple command-line interface (CLI) for your shell.
 

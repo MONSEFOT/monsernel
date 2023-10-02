@@ -26,8 +26,10 @@ enum {
 
 void print_clear();
 void print_newline(); 
+void print_char(char character, int __in_cursor_pos);
 void print_str(char* string);
-void print_char(char character);
+size_t get_cursor_row();
+size_t get_cursor_col();
 void set_cursor_position(size_t row, size_t col);
 void move_cursor_right();
 void move_cursor_left();
